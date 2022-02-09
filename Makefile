@@ -22,11 +22,11 @@
 #  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 #  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  * SOFTWARE.
-#  * 
+#  *
 #  * -----
-#  * 
+#  *
 #  * Parts of this software are based on Ledger Nano SDK
-#  * 
+#  *
 #  * (c) 2017 Ledger
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -57,12 +57,10 @@ APPVERSION=$(APPVERSION_M).$(APPVERSION_N).$(APPVERSION_P)
 
 ifeq ($(TARGET_NAME),TARGET_BLUE)
     ICONNAME=blue_app_ark.gif
+else ifeq ($(TARGET_NAME),TARGET_NANOS)
+    ICONNAME=icons/nanos_app_ark.gif
 else
-    ifeq ($(TARGET_NAME),TARGET_NANOX)
-        ICONNAME=icons/nanox_app_ark.gif
-    else
-        ICONNAME=icons/nanos_app_ark.gif
-    endif
+    ICONNAME=icons/nanox_app_ark.gif
 endif
 
 
@@ -100,10 +98,14 @@ DEFINES   += HAVE_WEBUSB WEBUSB_URL_SIZE_B=0 WEBUSB_URL=""
 
 # Nano X Defines
 ifeq ($(TARGET_NAME),TARGET_NANOX)
-    DEFINES     += IO_SEPROXYHAL_BUFFER_SIZE_B=300
     DEFINES     += HAVE_BLE BLE_COMMAND_TIMEOUT_MS=2000
     DEFINES     += HAVE_BLE_APDU # basic ledger apdu transport over BLE
+endif
 
+ifeq ($(TARGET_NAME),TARGET_NANOS)
+    DEFINES     += IO_SEPROXYHAL_BUFFER_SIZE_B=128
+else
+    DEFINES     += IO_SEPROXYHAL_BUFFER_SIZE_B=300
     DEFINES     += HAVE_GLO096
     DEFINES     += HAVE_BAGL BAGL_WIDTH=128 BAGL_HEIGHT=64
     DEFINES     += HAVE_BAGL_ELLIPSIS # long label truncation feature
@@ -111,17 +113,15 @@ ifeq ($(TARGET_NAME),TARGET_NANOX)
     DEFINES     += HAVE_BAGL_FONT_OPEN_SANS_EXTRABOLD_11PX
     DEFINES     += HAVE_BAGL_FONT_OPEN_SANS_LIGHT_16PX
     DEFINES     += HAVE_UX_FLOW
-else
-    DEFINES     += IO_SEPROXYHAL_BUFFER_SIZE_B=128
 endif
 
 # Enabling debug PRINTF
 DEBUG = 0
 ifneq ($(DEBUG),0)
-    ifeq ($(TARGET_NAME),TARGET_NANOX)
-        DEFINES   += HAVE_PRINTF PRINTF=mcu_usb_printf
-    else
+    ifeq ($(TARGET_NAME),TARGET_NANOS)
         DEFINES   += HAVE_PRINTF PRINTF=screen_printf
+    else
+        DEFINES   += HAVE_PRINTF PRINTF=mcu_usb_printf
     endif
 else
     DEFINES   += PRINTF\(...\)=
@@ -164,10 +164,10 @@ include $(BOLOS_SDK)/Makefile.glyphs
 ### computed variables
 APP_SOURCE_PATH     += src
 SDK_SOURCE_PATH     += lib_stusb lib_stusb_impl lib_u2f
+SDK_SOURCE_PATH     += lib_ux
 
 ifeq ($(TARGET_NAME),TARGET_NANOX)
     SDK_SOURCE_PATH     += lib_blewbxx lib_blewbxx_impl
-    SDK_SOURCE_PATH     += lib_ux
 endif
 
 

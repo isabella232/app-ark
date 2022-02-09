@@ -46,7 +46,7 @@
 
 #include "platform.h"
 
-#if defined(TARGET_NANOS) || defined(TARGET_NANOX)
+#if defined(TARGET_NANOS) || defined(TARGET_NANOX) || defined(TARGET_NANOS2)
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -194,7 +194,7 @@ void ux_flow_container_init(size_t steps, size_t extendedStep) {
         ux_flow_container[extendedStep] = (ux_flow_step_t *)&ux_step_ext;
     }
 
-    // set the final approval steps  
+    // set the final approval steps
     ux_flow_container[steps + 1] = (ux_flow_step_t *)&ux_step_approve;
     ux_flow_container[steps + 2] = (ux_flow_step_t *)&ux_step_reject;
     ux_flow_container[steps + 3] = FLOW_END_STEP;
@@ -215,4 +215,4 @@ void ui_idle(void) {
     ux_flow_init(0, ux_idle_flow, NULL);
 }
 
-#endif  // defined(TARGET_NANOS) || defined(TARGET_NANOX)
+#endif  // defined(TARGET_NANOS) || defined(TARGET_NANOX) || defined(TARGET_NANOS2)

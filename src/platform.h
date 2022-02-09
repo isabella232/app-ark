@@ -39,7 +39,7 @@
 #if defined(HAVE_BOLOS_SDK)
     #include <os.h>
 
-    #if defined(TARGET_NANOX)
+    #if defined(TARGET_NANOX) || defined(TARGET_NANOS2)
         #define SUPPORTS_LARGE_OPERATIONS
         #define SUPPORTS_MULTISIGNATURE
     #endif

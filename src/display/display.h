@@ -29,8 +29,8 @@
 
 #include "platform.h"
 
-#if defined(TARGET_NANOS) || defined(TARGET_NANOX)
+#if defined(TARGET_NANOS) || defined(TARGET_NANOX) || defined(TARGET_NANOS2)
     #include "display/nano.h"
-#endif  // TARGET_NANOS || TARGET_NANOX
+#endif  // TARGET_NANOS || TARGET_NANOX || defined(TARGET_NANOS2)
 
 #endif  // #define ARK_DISPLAY_H
